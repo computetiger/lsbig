@@ -3,7 +3,7 @@ title: "About"
 jupyter: python3
 ---
 
-About this site
+제발 왜이러는건데 ㅜㅜㅜㅜ
 
 ```{python}
 1 + 1
