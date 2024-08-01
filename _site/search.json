@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "posts/hw7/index.html",
+    "href": "posts/hw7/index.html",
+    "title": "LS bigdata school HW7",
+    "section": "",
+    "text": "#파일 불러오기, 컬럼명 변경\nimport pandas as pd\nimport seaborn as sns    \nimport numpy as np    \nimport matplotlib.pyplot as plt    \n!pip install pyreadstat\nraw_welfare=pd.read_spss('../../data/koweps/Koweps_hpwc14_2019_beta2.sav')\nwelfare=raw_welfare.copy()\n\nwelfare=welfare.rename(\n    columns={\"h14_g3\": \"sex\",\n             \"h14_g4\": \"birth\",\n             \"h14_g10\": \"marriage_type\",\n             \"h14_g11\": \"religion\",\n             \"p1402_8aq1\": \"income\",\n             \"h14_eco9\" : \"code_job\",\n             \"h14_reg7\" : \"code_region\"})\n             \nwelfare=welfare[[\"sex\",\"birth\",\"marriage_type\",\"religion\",\"income\",\"code_job\",\"code_region\"]]\n\n\n[notice] A new release of pip is available: 24.0 -&gt; 24.2\n[notice] To update, run: python.exe -m pip install --upgrade pip\n\n\nRequirement already satisfied: pyreadstat in c:\\ds\\python\\python312\\lib\\site-packages (1.2.7)\nRequirement already satisfied: pandas&gt;=1.2.0 in c:\\ds\\python\\python312\\lib\\site-packages (from pyreadstat) (2.2.2)\nRequirement already satisfied: numpy&gt;=1.26.0 in c:\\ds\\python\\python312\\lib\\site-packages (from pandas&gt;=1.2.0-&gt;pyreadstat) (2.0.0)\nRequirement already satisfied: python-dateutil&gt;=2.8.2 in c:\\ds\\python\\python312\\lib\\site-packages (from pandas&gt;=1.2.0-&gt;pyreadstat) (2.9.0.post0)\nRequirement already satisfied: pytz&gt;=2020.1 in c:\\ds\\python\\python312\\lib\\site-packages (from pandas&gt;=1.2.0-&gt;pyreadstat) (2024.1)\nRequirement already satisfied: tzdata&gt;=2022.7 in c:\\ds\\python\\python312\\lib\\site-packages (from pandas&gt;=1.2.0-&gt;pyreadstat) (2024.1)\nRequirement already satisfied: six&gt;=1.5 in c:\\ds\\python\\python312\\lib\\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=1.2.0-&gt;pyreadstat) (1.16.0)\n\n\n\n# 성별 전처리\nwelfare[\"sex\"].value_counts()\nwelfare[\"sex\"].isna().sum()\nwelfare[\"sex\"]=np.where(welfare[\"sex\"]==1.0, \"male\",\"female\")\n\n\n# 월급 전처리 & 평균 , 시각화\nsex_income=welfare.dropna(subset=\"income\").groupby(\"sex\",as_index=False)[[\"income\"]].mean() \nsns.barplot(data=sex_income, x=\"sex\", y=\"income\")\nplt.show()\n\n\n\n\n\n\n\n\n\n각 성별 95% 신뢰구간 계산후 그리기. norm.ppf() 사용해서 그릴 것. 모분산은 표본 분산을 사용해서 추정\n\nfrom scipy.stats import *\nall_income=welfare.dropna(subset=\"income\")\nf_income=all_income.loc[all_income[\"sex\"]==\"female\",\"income\"]\nm_income=all_income.loc[all_income[\"sex\"]==\"male\",\"income\"]\n\nf_mean=f_income.mean()\nm_mean=m_income.mean()\n\nf_std=f_income.std()\nm_std=m_income.std()\n\nf_n = len(f_income)\nm_n = len(m_income)\n\n\nz=norm.ppf(0.95, loc=0, scale=1)\n\nf_max=f_mean+z*f_std/np.sqrt(f_n)\nf_min=f_mean-z*f_std/np.sqrt(f_n)\n\nm_max=m_mean+z*m_std/np.sqrt(m_n)\nm_min=m_mean-z*m_std/np.sqrt(m_n)\n\n\nplt.clf()\nsns.barplot(data=sex_income, x=\"sex\", y=\"income\")\nplt.plot([1, 1], [m_min, m_max], 'r-')\nplt.plot([0, 0], [f_min, f_max], 'r-')"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n2"
+  }
+]
