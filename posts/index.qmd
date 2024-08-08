@@ -1,5 +1,5 @@
 ---
-title: "글목록"
+title: "LS Bigdata School "
 listing:
     contents: 
     - "**/*/**.qmd"
