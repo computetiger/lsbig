@@ -2,6 +2,22 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/index.html",
+      "/posts/project/project_index.html",
+      "/posts/hw8/index8.html",
+      "/posts/hw7/index.html",
+      "/posts/hw6/index.html",
+      "/posts/hw3/index.html",
+      "/posts/hw4/index.html",
+      "/posts/hw2/index.html",
+      "/posts/hw5/index.html",
+      "/posts/hw1/index.html"
+    ]
+  },
+  {
+    "listing": "/posts/index.html",
+    "items": [
+      "/posts/project/project_index.html",
       "/posts/hw8/index8.html",
       "/posts/hw7/index.html",
       "/posts/hw6/index.html",

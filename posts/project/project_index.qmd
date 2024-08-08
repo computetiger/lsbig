@@ -1,0 +1,90 @@
+---
+title: "LS bigdata school project"
+author: "tiger"
+date: "2024-08-07"
+categories: [bigdata]
+jupyter: python3
+---
+
+```{python}
+import pandas as pd
+import numpy as np    
+import seaborn as sns    
+import matplotlib.pyplot as plt    
+import plotly.express as px
+
+data=pd.read_csv('data/houseprice-with-lonlat.csv')
+data.head()
+
+
+```
+
+
+
+```{python}
+
+import folium
+from folium import Choropleth, Circle, Marker
+from folium.plugins import HeatMap
+
+# Define the center of the map
+map_center = [data['Latitude'].mean(), data['Longitude'].mean()]
+
+# Create the map
+m = folium.Map(location=map_center, zoom_start=12)
+
+# Add points to the map
+for _, row in data.iterrows():
+    folium.Circle(
+        location=[row['Latitude'], row['Longitude']],
+        radius=50,
+        color='blue',
+        fill=True,
+        fill_opacity=0.6,
+        popup=f"Price: ${row['Sale_Price']}"
+    ).add_to(m)
+
+# Save the map as an HTML file and display
+map_path = 'data/house_price_map.html'
+m.save(map_path)
+map_path
+
+```
+
+
+```{python}
+# Ensuring the lists of price_ranges and colors are correctly aligned
+price_ranges = [100000, 200000, 300000, 400000, 500000, 600000, 700000, float('inf')]
+colors = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b', '#041e42']
+
+#colors = ['blue', 'green', 'orange', 'red', 'purple', 'darkred', 'black', 'grey']
+
+# Adjust the function to map correctly based on price
+def get_color(price):
+    for i, range_upper in enumerate(price_ranges):
+        if price <= range_upper:
+            return colors[i]
+    return colors[-1]  # Fallback color for unexpected values
+
+# Create the map with correctly colored markers
+m_colored = folium.Map(location=map_center, zoom_start=12)
+
+for _, row in data.iterrows():
+    price = row['Sale_Price']
+    color = get_color(price)
+    folium.Circle(
+        location=[row['Latitude'], row['Longitude']],
+        radius=50,
+        color=color,
+        fill=True,
+        fill_opacity=0.6,
+        popup=f"Price: ${price}"
+    ).add_to(m_colored)
+
+# Save the map as an HTML file and display
+corrected_map_path = 'data/house_price_corrected_colored_map.html'
+m_colored.save(corrected_map_path)
+corrected_map_path
+
+```
+
