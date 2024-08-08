@@ -1,5 +1,5 @@
 ---
-title: "posts"
+title: "글목록"
 listing:
     contents: 
     - "**/*/**.qmd"
@@ -10,7 +10,7 @@ listing:
     categories: cloud
     sort-ui: true
     filter-ui: true
-    page-size: 18     
+    page-size: 36     
 page-layout: full
 title-block-banner: false
 comments: false
